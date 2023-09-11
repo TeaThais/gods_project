@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.shortcuts import render
 
 
@@ -15,4 +15,10 @@ def categories_by_slug(request, cat_slug):
 
 
 def archive(request, year):
+    if year > 2023:
+        raise Http404()
     return HttpResponse(f"Archive for {year} year")
+
+
+def page_not_found(request, exception):
+    return HttpResponseNotFound('Nothing was found here')

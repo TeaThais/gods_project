@@ -1,6 +1,7 @@
 
 .idea
 *.pyo
-*.pyc
+
 *.djcache
 
+*.pyc
