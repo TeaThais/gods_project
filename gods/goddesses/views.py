@@ -1,0 +1,10 @@
+from django.http import HttpResponse
+from django.shortcuts import render
+
+
+def index(request):
+    return HttpResponse('The very first page')
+
+
+def categories(request):
+    return HttpResponse('Categories')
