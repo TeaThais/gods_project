@@ -1,10 +1,13 @@
 from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse
+from django.template.loader import render_to_string
 
 
 def index(request):
-    return HttpResponse('The very first page')
+    # text = render_to_string('goddesses/index.html')
+    # return HttpResponse(text)
+    return render(request, 'goddesses/index.html')
 
 
 def categories(request, cat_id):
@@ -22,6 +25,10 @@ def archive(request, year):
         uri = reverse('categories', args=('egypt', ))    # uri will have 'cats/egypt/'
         return redirect(uri)
     return HttpResponse(f"Archive for {year} year")
+
+
+def about(request):
+    return render(request, 'goddesses/about.html')
 
 
 def page_not_found(request, exception):
