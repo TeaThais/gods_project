@@ -1,5 +1,6 @@
 from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.shortcuts import render, redirect
+from django.template.defaultfilters import slugify
 from django.urls import reverse
 from django.template.loader import render_to_string
 
@@ -7,12 +8,22 @@ from django.template.loader import render_to_string
 menu = ['About', 'Add article', 'Contacts', 'Login']
 
 
+data_db = [
+    {'id': 1, 'name': 'Isis', 'content': 'Egyptian goddess', 'is_published': True},
+    {'id': 2, 'name': 'Aphrodite', 'content': 'Greek goddess', 'is_published': False},
+    {'id': 3, 'name': 'Hathor', 'content': 'Egyptian goddess', 'is_published': True},
+    {'id': 4, 'name': 'Astarte', 'content': 'Sumerian goddess', 'is_published': True},
+]
+
+
 def index(request):
     # text = render_to_string('goddesses/index.html')
     # return HttpResponse(text)
     data = {
-        'title': "The very first page",
+        'title': "the very first page",
         'menu': menu,
+        'url': slugify("press here for the next page"),
+        'posts': data_db
     }
     return render(request, 'goddesses/index.html', context=data)
 

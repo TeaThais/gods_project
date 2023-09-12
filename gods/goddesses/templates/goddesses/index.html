@@ -2,10 +2,28 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{ title }}</title>
+    <title>{{ title|upper }}</title>
 </head>
 <body>
-    <p>{{ menu }}</p>
-    <h3>{{ title }}</h3>
+<!--    <p>{{ menu|first }}</p> -->
+    <p>{{ menu|join:" | " }}</p>
+
+     <h3>{{ title|capfirst }}</h3>
+     <p>{{ url }}</p>
+
+        <ul>
+            {% for post in posts %}
+                {% if post.is_published %}
+                    <li>
+                        <h3> {{ post.name }} </h3>
+                        <p> {{ post.content }} </p>
+                    </li>
+                    {% if not forloop.last %}
+                        <hr>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </ul>
+
 </body>
 </html>
