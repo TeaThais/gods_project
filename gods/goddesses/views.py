@@ -4,10 +4,17 @@ from django.urls import reverse
 from django.template.loader import render_to_string
 
 
+menu = ['About', 'Add article', 'Contacts', 'Login']
+
+
 def index(request):
     # text = render_to_string('goddesses/index.html')
     # return HttpResponse(text)
-    return render(request, 'goddesses/index.html')
+    data = {
+        'title': "The very first page",
+        'menu': menu,
+    }
+    return render(request, 'goddesses/index.html', context=data)
 
 
 def categories(request, cat_id):
@@ -28,7 +35,12 @@ def archive(request, year):
 
 
 def about(request):
-    return render(request, 'goddesses/about.html')
+    data = {
+        'title': "About",
+        'text': "About this site",
+        'menu': menu,
+    }
+    return render(request, 'goddesses/about.html', data)
 
 
 def page_not_found(request, exception):
