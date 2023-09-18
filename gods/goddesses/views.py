@@ -5,12 +5,7 @@ from django.urls import reverse
 from django.template.loader import render_to_string
 
 
-menu = [
-    {'title': 'About', 'url_name': 'about'},
-    {'title': 'Add post', 'url_name': 'add_post'},
-    {'title': 'Contacts', 'url_name': 'contacts'},
-    {'title': 'Login', 'url_name': 'login'}
-]
+menu = ['About', 'Add article', 'Contacts', 'Login']
 
 
 data_db = [
@@ -33,6 +28,23 @@ def index(request):
     return render(request, 'goddesses/index.html', context=data)
 
 
+def categories(request, cat_id):
+    return HttpResponse(f"Categories <p>id: {cat_id}</p>")
+
+
+def categories_by_slug(request, cat_slug):
+    return HttpResponse(f"Categories <p>slug: {cat_slug}</p>")
+
+
+def archive(request, year):
+    if year > 2023:
+        # raise Http404()
+        # return redirect('home', permanent=True)
+        uri = reverse('categories', args=('egypt', ))    # uri will have 'cats/egypt/'
+        return redirect(uri)
+    return HttpResponse(f"Archive for {year} year")
+
+
 def about(request):
     data = {
         'title': "About",
@@ -40,22 +52,6 @@ def about(request):
         'menu': menu,
     }
     return render(request, 'goddesses/about.html', data)
-
-
-def show_post(request, post_id):
-    return HttpResponse(f"Post number {post_id}")
-
-
-def add_post(request):
-    return HttpResponse('Add post')
-
-
-def contacts(request):
-    return HttpResponse('Contact')
-
-
-def login(request):
-    return HttpResponse('Login')
 
 
 def page_not_found(request, exception):
