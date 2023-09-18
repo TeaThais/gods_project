@@ -4,9 +4,21 @@
     <meta charset="UTF-8">
     <title>{{ title|upper }}</title>
 </head>
+<header>
+    <ul>
+   <li> <a href="{% url 'home' %}">Home</a></li>
+        {% for item in menu  %}
+    {% if not forloop.last %}<li>{% else %}<li class="last">{% endif %}
+        <a href="{% url item.url_name %}"> {{ item.title }} </a>
+        </li>
+    {% endfor %}
+    </ul>
+</header>
+
 <body>
 <!--    <p>{{ menu|first }}</p> -->
-    <p>{{ menu|join:" | " }}</p>
+<!--    <p>{{ menu|join:" | " }}</p>-->
+
 
      <h3>{{ title|capfirst }}</h3>
      <p>{{ url }}</p>
@@ -17,6 +29,7 @@
                     <li>
                         <h3> {{ post.name }} </h3>
                         <p> {{ post.content }} </p>
+                        <a href="{% url 'post' post.id %}"> Read more </a>
                     </li>
                     {% if not forloop.last %}
                         <hr>

@@ -3,12 +3,13 @@ from django.urls import path, register_converter
 from . import views
 from . import converters
 
-register_converter(converters.FourDigitYearConverter, 'year4')
+# register_converter(converters.FourDigitYearConverter, 'year4')
 
 urlpatterns = [
     path('', views.index, name='home'),
-    path('cats/<int:cat_id>/', views.categories, name='cats'),
-    path('cats/<slug:cat_slug>/', views.categories_by_slug, name='categories'),
-    path('archive/<year4:year>/', views.archive, name='archive'),
     path('about/', views.about, name='about'),
+    path('addpost/', views.add_post, name='add_post'),
+    path('contacts/', views.contacts, name='contacts'),
+    path('login/', views.login, name='login'),
+    path('post/<int:post_id>/', views.show_post, name='post'),
 ]
