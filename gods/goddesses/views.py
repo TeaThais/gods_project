@@ -25,7 +25,7 @@ def index(request):
     # text = render_to_string('goddesses/index.html')
     # return HttpResponse(text)
     data = {
-        'title': "the very first page",
+        'title': "Goddesses",
         'menu': menu,
         'url': slugify("press here for the next page"),
         'posts': data_db
