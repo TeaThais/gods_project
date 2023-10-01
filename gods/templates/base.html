@@ -1,20 +1,63 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>{{ title|upper }}</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<link rel="shortcut icon" href="{% static 'goddesses/images/main.ico' %}" type="image/x-icon"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link type="text/css" href="{% static 'goddesses/css/styles.css' %}" rel="stylesheet"/>
 </head>
-<header>
-    <ul>
-   <li> <a href="{% url 'home' %}">Home</a></li>
-        {% for item in menu  %}
-    {% if not forloop.last %}<li>{% else %}<li class="last">{% endif %}
-        <a href="{% url item.url_name %}"> {{ item.title }} </a>
-        </li>
-    {% endfor %}
-    </ul>
-</header>
+
 <body>
-{% block content %}{% endblock %}
+<table class="table-content" border=0 cellpadding="0" cellspacing="0">
+    <tr>
+        <td valign=top>
+
+            {% block mainmenu %}
+            <div class="header">
+                <ul id="mainmenu" class="mainmenu">
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    {% for item in menu  %}
+                        {% if not forloop.last %}<li>{% else %}<li class="last">{% endif %}
+                            <a href="{% url item.url_name %}"> {{ item.title }} </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <div class="clear"></div>
+            </div>
+            {% endblock mainmenu %}
+
+            <table class="table-content" border=0 cellpadding="0" cellspacing="0">
+                <tr>
+
+
+                    <!-- Sidebar слева -->
+                    <td valign="top" class="left-chapters">
+                        <ul id="leftchapters">
+                            <li class="selected">All categories</li>
+                            <li><a href="#">Egypt</a></li>
+                            <li><a href="#">Mesopotamia</a></li>
+                            <li><a href="#">Greece</a></li>
+                        </ul>
+                    </td>
+                    <!-- Конец Sidebar'а -->
+
+                    <!-- Блок контента -->
+                    <td valign="top" class="content">
+                        <div class="content-text">
+                            {% block content %}
+                            {% endblock %}
+                        </div>
+                    </td>
+                    <!-- Конец блока контента -->
+
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
 </body>
 </html>
