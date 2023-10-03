@@ -12,6 +12,12 @@ menu = [
     {'title': 'Login', 'url_name': 'login'}
 ]
 
+cats_db = [
+    {'id': 1, 'name': 'Egypt'},
+    {'id': 2, 'name': 'Mesopotamia'},
+    {'id': 3, 'name': 'Greece'},
+]
+
 
 data_db = [
     {'id': 1, 'name': 'Isis', 'content': '''Isis was a major goddess in ancient Egyptian religion whose worship spread
@@ -22,7 +28,7 @@ data_db = [
      Her maternal aid was invoked in healing spells to benefit ordinary people. Originally, she played a limited role
       in royal rituals and temple rites, although she was more prominent in funerary practices and magical texts. 
       She was usually portrayed in art as a human woman wearing a throne-like hieroglyph on her head. 
-      During the New Kingdom (c. 1550 – c. 1070 BCE), as she took on traits that originally belonged to Hathor, 
+      During the New Kingdom, as she took on traits that originally belonged to Hathor, 
       the preeminent goddess of earlier times, Isis was portrayed wearing Hathor's headdress: a sun disk between the
         horns of a cow. ''',
      'is_published': True},
@@ -59,7 +65,8 @@ def index(request):
         'title': "Goddesses",
         'menu': menu,
         'url': slugify("press here for the next page"),
-        'posts': data_db
+        'posts': data_db,
+        'cat_selected': 0
     }
     return render(request, 'goddesses/index.html', context=data)
 
@@ -87,6 +94,17 @@ def contacts(request):
 
 def login(request):
     return HttpResponse('Login')
+
+
+def show_category(request, cat_id):
+    data = {
+        'title': "Myth country",
+        'menu': menu,
+        'url': slugify("press here for the next page"),
+        'posts': data_db,
+        'cat_selected': cat_id,
+    }
+    return render(request, 'goddesses/index.html', context=data)
 
 
 def page_not_found(request, exception):

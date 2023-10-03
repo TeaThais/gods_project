@@ -1,4 +1,5 @@
 {% load static %}
+{% load gods_tags %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -37,10 +38,13 @@
                     <!-- Sidebar слева -->
                     <td valign="top" class="left-chapters">
                         <ul id="leftchapters">
-                            <li class="selected">All categories</li>
-                            <li><a href="#">Egypt</a></li>
-                            <li><a href="#">Mesopotamia</a></li>
-                            <li><a href="#">Greece</a></li>
+                            {% if cat_selected == 0 or cat_selected is None %}
+                                <li class="selected">All categories</li>
+                            {% else %}
+                                <li><a href="{% url 'home' %}">All categories</a></li>
+                            {% endif %}
+
+                            {% show_categories cat_selected %}
                         </ul>
                     </td>
                     <!-- Конец Sidebar'а -->
