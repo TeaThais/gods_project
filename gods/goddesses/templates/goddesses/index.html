@@ -10,13 +10,13 @@
      {% for post in posts %}
          {% if post.is_published %}
              <li>
-                  <h3> {{ post.name }} </h3>
+                  <h3> {{ post.title }} </h3>
                   <p> {{ post.content|truncatewords:50 }} </p>   {% comment %} |linebreaks| {% endcomment %}
                  <div class="clear"></div>
-                 <p class="link-read-post"> <a href="{% url 'post' post.id %}"> Read more </a></p>
+                 <p class="link-read-post"> <a href="{{ post.get_absolute_url }}"> Read more </a></p>
              </li>
             {% if not forloop.last %}
-         <hr>
+                <hr>
          {% endif %}
              {% endif %}
      {% endfor %}
