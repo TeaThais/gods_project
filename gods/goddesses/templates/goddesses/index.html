@@ -8,16 +8,16 @@
 
 <ul class="list-articles">
      {% for post in posts %}
-         {% if post.is_published %}
+
              <li>
                   <h3> {{ post.title }} </h3>
-                  <p> {{ post.content|truncatewords:50 }} </p>   {% comment %} |linebreaks| {% endcomment %}
+                  <p> {{ post.content|truncatewords:50 }} </p>
                  <div class="clear"></div>
                  <p class="link-read-post"> <a href="{{ post.get_absolute_url }}"> Read more </a></p>
              </li>
             {% if not forloop.last %}
                 <hr>
-         {% endif %}
+
              {% endif %}
      {% endfor %}
 </ul>

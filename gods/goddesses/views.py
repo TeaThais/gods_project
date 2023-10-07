@@ -21,7 +21,7 @@ cats_db = [
 
 
 def index(request):
-    posts = Goddesses.objects.all()
+    posts = Goddesses.published.all()
     data = {
         'title': "Goddesses",
         'menu': menu,
