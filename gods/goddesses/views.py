@@ -4,7 +4,7 @@ from django.template.defaultfilters import slugify
 from django.urls import reverse
 from django.template.loader import render_to_string
 
-from goddesses.models import Goddesses
+from goddesses.models import Goddesses, Category
 
 menu = [
     {'title': 'About', 'url_name': 'about'},
@@ -64,14 +64,15 @@ def login(request):
     return HttpResponse('Login')
 
 
-def show_category(request, cat_id):
-    posts = Goddesses.objects.all()
+def show_category(request, cat_slug):
+    category = get_object_or_404(Category, slug=cat_slug)
+    posts = Goddesses.published.filter(cat_id=category.pk)
     data = {
-        'title': "Myth country",
+        'title': category.name,
         'menu': menu,
         'url': slugify("press here for the next page"),
         'posts': posts,
-        'cat_selected': cat_id,
+        'cat_selected': category.pk,
     }
     return render(request, 'goddesses/index.html', context=data)
 

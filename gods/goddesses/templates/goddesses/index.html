@@ -4,12 +4,14 @@
      <h3>{{ title|capfirst }}</h3>
      <p>{{ url }}</p>
 
-{% include 'goddesses/includes/nav.html' %}
 
 <ul class="list-articles">
      {% for post in posts %}
-
              <li>
+                 <div class="article-panel">
+                     <p class="first">Category: {{ post.cat }}</p>
+                     <p class="last">Date: {{ post.time_update }}</p>
+                 </div>
                   <h3> {{ post.title }} </h3>
                   <p> {{ post.content|truncatewords:50 }} </p>
                  <div class="clear"></div>

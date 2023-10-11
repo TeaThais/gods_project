@@ -1,5 +1,6 @@
 from django import template
 import goddesses.views as views
+from goddesses.models import Category
 
 register = template.Library()
 
@@ -11,5 +12,12 @@ register = template.Library()
 
 @register.inclusion_tag('goddesses/list_categories.html')
 def show_categories(cat_selected=0):
-    cats = views.cats_db
+    cats = Category.objects.all()
+    return {'cats': cats, 'cat_selected': cat_selected}\
+
+
+
+@register.inclusion_tag('goddesses/categories_down.html')
+def show_categories_down(cat_selected=0):
+    cats = Category.objects.all()
     return {'cats': cats, 'cat_selected': cat_selected}

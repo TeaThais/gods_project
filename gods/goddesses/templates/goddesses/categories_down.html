@@ -1,0 +1,9 @@
+{% load static %}
+
+{% for cat in cats %}
+    {% if cat.id == cat_selected %}
+        <span style="color:#0059b2" class="selected">{{ cat.name }}</span>
+    {% else %}
+        <span><a style="color: #444;" href="{{ cat.get_absolute_url }}">{{ cat.name }}</a></span>
+    {% endif %}
+{% endfor %}
