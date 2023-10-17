@@ -4,19 +4,13 @@ from django.template.defaultfilters import slugify
 from django.urls import reverse
 from django.template.loader import render_to_string
 
-from goddesses.models import Goddesses, Category
+from goddesses.models import Goddesses, Category, TagPost
 
 menu = [
     {'title': 'About', 'url_name': 'about'},
     {'title': 'Add post', 'url_name': 'add_post'},
     {'title': 'Contacts', 'url_name': 'contacts'},
     {'title': 'Login', 'url_name': 'login'}
-]
-
-cats_db = [
-    {'id': 1, 'name': 'Egypt'},
-    {'id': 2, 'name': 'Mesopotamia'},
-    {'id': 3, 'name': 'Greece'},
 ]
 
 
@@ -47,7 +41,7 @@ def show_post(request, post_slug):
         'title': post.title,
         'menu': menu,
         'post': post,
-        'cat_selected': 1
+        'cat_selected': 0
     }
     return render(request, 'goddesses/post.html', data)
 
@@ -73,6 +67,18 @@ def show_category(request, cat_slug):
         'url': slugify("press here for the next page"),
         'posts': posts,
         'cat_selected': category.pk,
+    }
+    return render(request, 'goddesses/index.html', context=data)
+
+
+def tag_posts(request, tag_slug):
+    tag = get_object_or_404(TagPost, slug=tag_slug)
+    posts = tag.post_tags.filter(is_published=Goddesses.Status.PUBLISHED)
+    data = {
+        'title': tag.tag,
+        'menu': menu,
+        'posts': posts,
+        'cat_selected': None,
     }
     return render(request, 'goddesses/index.html', context=data)
 

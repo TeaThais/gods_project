@@ -1,7 +1,21 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
+{% with post.tags.all as tags %}
+{% if tags %}
+    <ul class="tags-list">
+        <li>Tags</li>
+        {% for tag in tags %}
+        <li><a href="{{ tag.get_absolute_url }}">{{ tag.tag }}</a></li>
+        {% endfor %}
+    </ul>
+{% endif %}
+{% endwith %}
+
 <h3>{{ post.title }}</h3>
+
+<h5>Consort: {{ post.consort }}</h5>
 
 {% if post.image %}
 <p><img class="img-article-left" src="{{post.image.url}}"></p>

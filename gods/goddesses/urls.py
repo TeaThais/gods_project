@@ -13,4 +13,5 @@ urlpatterns = [
     path('login/', views.login, name='login'),
     path('goddess/<slug:post_slug>/', views.show_post, name='goddess'),
     path('category/<slug:cat_slug>/', views.show_category, name='category'),
+    path('tag/<slug:tag_slug>/', views.tag_posts, name='tag')
 ]
