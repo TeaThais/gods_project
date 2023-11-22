@@ -15,7 +15,7 @@ menu = [
 
 
 def index(request):
-    posts = Goddesses.published.all()
+    posts = Goddesses.published.all().select_related('cat')
     data = {
         'title': "Goddesses",
         'menu': menu,
@@ -60,7 +60,7 @@ def login(request):
 
 def show_category(request, cat_slug):
     category = get_object_or_404(Category, slug=cat_slug)
-    posts = Goddesses.published.filter(cat_id=category.pk)
+    posts = Goddesses.published.filter(cat_id=category.pk).select_related('cat')
     data = {
         'title': category.name,
         'menu': menu,
@@ -73,7 +73,7 @@ def show_category(request, cat_slug):
 
 def tag_posts(request, tag_slug):
     tag = get_object_or_404(TagPost, slug=tag_slug)
-    posts = tag.post_tags.filter(is_published=Goddesses.Status.PUBLISHED)
+    posts = tag.post_tags.filter(is_published=Goddesses.Status.PUBLISHED).select_related('cat')
     data = {
         'title': tag.tag,
         'menu': menu,

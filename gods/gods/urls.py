@@ -23,6 +23,10 @@ from goddesses.views import page_not_found
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('goddesses.urls')),
+    path("__debug__/", include("debug_toolbar.urls")),
 ]
 
 handler404 = page_not_found
+
+admin.site.site_header = 'Admin panel'
+admin.site.index_title = 'Site about deities'
