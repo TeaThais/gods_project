@@ -1,7 +1,22 @@
 from django.contrib import admin, messages
 from .models import Goddesses, Category
 
-# Register your models here.
+
+class ConsortFilter(admin.SimpleListFilter):
+    title = 'Status'
+    parameter_name = 'status'
+
+    def lookups(self, request, model_admin):
+        return [
+            ('has consort', 'has consort'),
+            ('single', 'single')
+        ]
+
+    def queryset(self, request, queryset):
+        if self.value() == 'has consort':
+            return queryset.filter(consort__isnull=False)
+        elif self.value() == 'single':
+            return queryset.filter(consort__isnull=True)
 
 
 @admin.register(Goddesses)
@@ -12,6 +27,8 @@ class GoddessesAdmin(admin.ModelAdmin):
     list_editable = ('is_published',)
     list_per_page = 5
     actions = ('set_published', 'set_draft')
+    search_fields = ('title', 'cat__name')
+    list_filter = (ConsortFilter, 'cat__name', 'is_published')
 
     def brief_info(self, gods: Goddesses):
         return f"Description {len(gods.content)} symbols."
