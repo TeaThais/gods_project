@@ -47,7 +47,7 @@ def show_post(request, post_slug):
 
 
 def add_post(request):
-    return HttpResponse('Add post')
+    return render(request, 'goddesses/addpost.html', {'menu': menu, 'title': 'Add post'})
 
 
 def contacts(request):
