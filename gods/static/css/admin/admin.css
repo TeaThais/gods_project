@@ -1,0 +1,11 @@
+#header, .module caption {
+    background-color: #0080FF
+}
+
+div.breadcrumbs, .module h2, .paginator a:link {
+    background: #00c3ff
+}
+
+.button.default, input[type="submit"].default, .submit-row input.default {
+    background: #0080FF
+}

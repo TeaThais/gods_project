@@ -22,6 +22,8 @@ class ConsortFilter(admin.SimpleListFilter):
 @admin.register(Goddesses)
 class GoddessesAdmin(admin.ModelAdmin):
     list_display = ('title', 'brief_info', 'is_published', 'cat')
+    prepopulated_fields = {'slug': ('title',)}
+    filter_horizontal = ('tags',)
     list_display_links = ('title',)
     ordering = ('title',)
     list_editable = ('is_published',)

@@ -1,4 +1,5 @@
 from django.db import models
+from django.template.defaultfilters import slugify
 from django.urls import reverse
 
 
@@ -21,7 +22,7 @@ class Goddesses(models.Model):
                                        default=Status.DRAFT)
     cat = models.ForeignKey('Category', on_delete=models.PROTECT, related_name='deities')
     tags = models.ManyToManyField('TagPost', blank=True, related_name='post_tags')
-    consort = models.OneToOneField('Consort', on_delete=models.SET_NULL, null=True, related_name='consort')
+    consort = models.OneToOneField('Consort', on_delete=models.SET_NULL, blank=True, null=True, related_name='consort')
 
     objects = models.Manager()
     published = PublishedManager()
@@ -54,6 +55,7 @@ class Category(models.Model):
     class Meta:
         verbose_name = 'Category'
         verbose_name_plural = 'Categories'
+
 
 class TagPost(models.Model):
     tag = models.CharField(max_length=100, db_index=True)
