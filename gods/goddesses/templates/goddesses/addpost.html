@@ -6,9 +6,15 @@
 <form action="" method="post">
     {% csrf_token %}
 <!--  token  needed for post method-->
-<!--    <p><label for="id_1">Your text here</label> <input type="text" id="id_1" name="text"></p>-->
 
-    {{ form.as_p }}
+    <div class="form-error">{{ form.non_field_errors }}</div>
+
+    {% for f in form %}
+
+    <p><label class="form-label" for="{{ f.id_for_label }}"> {{ f.label }}</label> {{ f }} </p>
+    <div class="form-error">{{ f.errors }}</div>
+
+    {% endfor %}
 
     <p><button type="submit">Send</button></p>
 </form>
