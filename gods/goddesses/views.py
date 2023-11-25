@@ -4,6 +4,7 @@ from django.template.defaultfilters import slugify
 from django.urls import reverse
 from django.template.loader import render_to_string
 
+from goddesses.forms import AddPostForm
 from goddesses.models import Goddesses, Category, TagPost
 
 menu = [
@@ -47,7 +48,19 @@ def show_post(request, post_slug):
 
 
 def add_post(request):
-    return render(request, 'goddesses/addpost.html', {'menu': menu, 'title': 'Add post'})
+    if request.method == 'POST':
+        form = AddPostForm(request.POST)
+        if form.is_valid():
+            print(form.cleaned_data)
+    else:
+        form = AddPostForm()
+
+    data = {
+        'menu': menu,
+        'title': 'Add post',
+        'form': form
+    }
+    return render(request, 'goddesses/addpost.html', data)
 
 
 def contacts(request):
