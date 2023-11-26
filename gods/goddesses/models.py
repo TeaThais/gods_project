@@ -15,9 +15,10 @@ class Goddesses(models.Model):
         PUBLISHED = 1, 'Published'
 
     title = models.CharField(max_length=255)
-    slug = models.SlugField(max_length=255, unique=True, db_index=True,                            validators=[
-                               MinLengthValidator(5, message='5 characters minimum'),
-                           ])
+    slug = models.SlugField(max_length=255, unique=True, db_index=True,
+                            validators=[
+                               MinLengthValidator(5, message='5 characters minimum')
+                             ])
     content = models.TextField(blank=True)
     time_create = models.DateTimeField(auto_now_add=True)
     time_update = models.DateTimeField(auto_now=True)

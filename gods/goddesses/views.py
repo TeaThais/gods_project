@@ -52,11 +52,13 @@ def add_post(request):
         form = AddPostForm(request.POST)
         if form.is_valid():
             # print(form.cleaned_data)
-            try:
-                Goddesses.objects.create(**form.cleaned_data)
-                return redirect('home')
-            except:
-                form.add_error(None, 'Error while adding post')
+            # try:
+            #     Goddesses.objects.create(**form.cleaned_data)
+            #     return redirect('home')
+            # except:
+            #     form.add_error(None, 'Error while adding post')
+            form.save()
+            return redirect('home')
     else:
         form = AddPostForm()
 
