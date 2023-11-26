@@ -26,6 +26,9 @@ class AddPostForm(forms.ModelForm):
         return title
 
 
+class UploadFileForm(forms.Form):
+    file = forms.ImageField(label='File')
+
     # title = forms.CharField(max_length=255, min_length=5,
     #                         error_messages={
     #                             'min_length': 'Must me more than 5 characters'
