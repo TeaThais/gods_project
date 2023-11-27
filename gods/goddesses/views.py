@@ -3,6 +3,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.template.defaultfilters import slugify
 from django.urls import reverse
 from django.template.loader import render_to_string
+from django.views import View
+from django.views.generic import TemplateView
 
 from goddesses.forms import AddPostForm, UploadFileForm
 from goddesses.models import Goddesses, Category, TagPost, UploadFiles
@@ -15,17 +17,27 @@ menu = [
 ]
 
 
-def index(request):
-    posts = Goddesses.published.all().select_related('cat')
-    data = {
+# def index(request):
+#     posts = Goddesses.published.all().select_related('cat')
+#     data = {
+#         'title': "Goddesses",
+#         'menu': menu,
+#         'posts': posts,
+#         'url': slugify("press here for the next page"),
+#         'cat_selected': 0,
+#     }
+#     return render(request, 'goddesses/index.html', context=data)
+
+
+class GodsHome(TemplateView):
+    template_name = 'goddesses/index.html'
+    extra_context = {
         'title': "Goddesses",
         'menu': menu,
-        'posts': posts,
+        'posts': Goddesses.published.all().select_related('cat'),
         'url': slugify("press here for the next page"),
         'cat_selected': 0,
     }
-    return render(request, 'goddesses/index.html', context=data)
-
 
 # def handle_uploaded_file(f):
 #     with open(f'uploads/{f.name}', 'wb+') as destination:
@@ -63,27 +75,45 @@ def show_post(request, post_slug):
     return render(request, 'goddesses/post.html', data)
 
 
-def add_post(request):
-    if request.method == 'POST':
+# def add_post(request):
+#     if request.method == 'POST':
+#         form = AddPostForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('home')
+#     else:
+#         form = AddPostForm()
+#
+#     data = {
+#         'menu': menu,
+#         'title': 'Add post',
+#         'form': form
+#     }
+#     return render(request, 'goddesses/addpost.html', data)
+
+
+class AddPost(View):
+    def get(self, request):
+        form = AddPostForm()
+        data = {
+            'menu': menu,
+            'title': 'Add post',
+            'form': form
+        }
+        return render(request, 'goddesses/addpost.html', data)
+
+    def post(self, request):
         form = AddPostForm(request.POST, request.FILES)
         if form.is_valid():
-            # print(form.cleaned_data)
-            # try:
-            #     Goddesses.objects.create(**form.cleaned_data)
-            #     return redirect('home')
-            # except:
-            #     form.add_error(None, 'Error while adding post')
             form.save()
             return redirect('home')
-    else:
-        form = AddPostForm()
 
-    data = {
-        'menu': menu,
-        'title': 'Add post',
-        'form': form
-    }
-    return render(request, 'goddesses/addpost.html', data)
+        data = {
+            'menu': menu,
+            'title': 'Add post',
+            'form': form
+        }
+        return render(request, 'goddesses/addpost.html', data)
 
 
 def contacts(request):
