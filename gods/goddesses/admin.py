@@ -1,4 +1,6 @@
 from django.contrib import admin, messages
+from django.utils.safestring import mark_safe
+
 from .models import Goddesses, Category
 
 
@@ -21,7 +23,9 @@ class ConsortFilter(admin.SimpleListFilter):
 
 @admin.register(Goddesses)
 class GoddessesAdmin(admin.ModelAdmin):
-    list_display = ('title', 'brief_info', 'is_published', 'cat')
+    fields = ('title', 'slug', 'post_image',  'image', 'content', 'is_published', 'cat', 'consort', 'tags')
+    list_display = ('title', 'post_image', 'is_published', 'cat')
+    readonly_fields = ('post_image',)
     prepopulated_fields = {'slug': ('title',)}
     filter_horizontal = ('tags',)
     list_display_links = ('title',)
@@ -31,9 +35,16 @@ class GoddessesAdmin(admin.ModelAdmin):
     actions = ('set_published', 'set_draft')
     search_fields = ('title', 'cat__name')
     list_filter = (ConsortFilter, 'cat__name', 'is_published')
+    save_on_top = True
 
-    def brief_info(self, gods: Goddesses):
-        return f"Description {len(gods.content)} symbols."
+    # def brief_info(self, gods: Goddesses):
+    #     return f"Description {len(gods.content)} symbols."
+
+    def post_image(self, gods: Goddesses):
+        if gods.image:
+            return mark_safe(f"<img src='{gods.image.url}' width=50>")
+        else:
+            return 'No image'
 
     def set_published(self, request, queryset):
         count = queryset.update(is_published=Goddesses.Status.PUBLISHED)

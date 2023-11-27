@@ -12,6 +12,9 @@
                      <p class="first">Category: {{ post.cat }}</p>
                      <p class="last">Date: {{ post.time_update }}</p>
                  </div>
+                 {% if post.image %}
+                    <p><img class="img-article-left thumb" src="{{post.image.url}}"></p>
+                 {% endif %}
                   <h3> {{ post.title }} </h3>
                   <p> {{ post.content|truncatewords:50 }} </p>
                  <div class="clear"></div>

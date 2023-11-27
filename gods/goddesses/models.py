@@ -19,6 +19,7 @@ class Goddesses(models.Model):
                             validators=[
                                MinLengthValidator(5, message='5 characters minimum')
                              ])
+    image = models.ImageField(upload_to='photos', default=None, null=True, blank=True, verbose_name='Image')
     content = models.TextField(blank=True)
     time_create = models.DateTimeField(auto_now_add=True)
     time_update = models.DateTimeField(auto_now=True)
@@ -80,3 +81,6 @@ class Consort(models.Model):
     def __str__(self):
         return self.name
 
+
+class UploadFiles(models.Model):
+    file = models.FileField(upload_to='uploads_model')
