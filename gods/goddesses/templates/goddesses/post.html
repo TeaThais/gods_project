@@ -13,6 +13,7 @@
 {% endif %}
 {% endwith %}
 
+
 <h3>{{ post.title }}</h3>
 
 <h5>Consort: {{ post.consort }}</h5>
@@ -22,5 +23,10 @@
 {% endif %}
 
 {{post.content|linebreaks}}
+
+<span class="link-read-post"> <a href="{{ edit_absolute_url }}"> Edit </a></span>
+
+<span class="link-read-post"> <a href="{{ del_absolute_url }}"> Delete </a></span>
+
 
 {% endblock %}

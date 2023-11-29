@@ -1,7 +1,7 @@
 from django.core.validators import MinLengthValidator
 from django.db import models
 from django.template.defaultfilters import slugify
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 
 
 class PublishedManager(models.Manager):
@@ -46,6 +46,12 @@ class Goddesses(models.Model):
     def get_absolute_url(self):
         return reverse('goddess', kwargs={'post_slug': self.slug})
 
+    def get_edit_absolute_url(self):
+        return reverse('edit_post', kwargs={'slug': self.slug})
+
+    def get_del_absolute_url(self):
+        return reverse('del_post', kwargs={'slug': self.slug})
+
 
 class Category(models.Model):
     name = models.CharField(max_length=100, db_index=True)
@@ -71,6 +77,7 @@ class TagPost(models.Model):
 
     def get_absolute_url(self):
         return reverse('tag', kwargs={'tag_slug': self.slug})
+
 
 
 class Consort(models.Model):

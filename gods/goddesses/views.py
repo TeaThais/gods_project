@@ -4,7 +4,7 @@ from django.template.defaultfilters import slugify
 from django.urls import reverse, reverse_lazy
 from django.template.loader import render_to_string
 from django.views import View
-from django.views.generic import TemplateView, ListView, DetailView, FormView
+from django.views.generic import TemplateView, ListView, DetailView, FormView, CreateView, UpdateView, DeleteView
 
 from goddesses.forms import AddPostForm, UploadFileForm
 from goddesses.models import Goddesses, Category, TagPost, UploadFiles
@@ -98,6 +98,8 @@ class ShowPost(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = context['post'].title
+        context['edit_absolute_url'] = context['post'].get_edit_absolute_url()
+        context['del_absolute_url'] = context['post'].get_del_absolute_url()
         context['menu'] = menu
         return context
 
@@ -121,19 +123,36 @@ class ShowPost(DetailView):
 #     return render(request, 'goddesses/addpost.html', data)
 
 
-class AddPost(FormView):
-    form_class = AddPostForm
+class AddPost(CreateView):
+    model = Goddesses
+    fields = '__all__'
     template_name = 'goddesses/addpost.html'
-    success_url = reverse_lazy('home')
+    # form_class = AddPostForm
+    # success_url = reverse_lazy('home')
     extra_context = {
         'menu': menu,
         'title': 'Add post'
     }
 
-    def form_valid(self, form):
-        form.save()
-        return super().form_valid(form)
+    # def form_valid(self, form):
+    #     form.save()
+    #     return super().form_valid(form)
 
+
+class UpdatePost(UpdateView):
+    model = Goddesses
+    fields = '__all__'
+    template_name = 'goddesses/addpost.html'
+    extra_context = {
+        'menu': menu,
+        'title': 'Edit post'
+    }
+
+
+class DeletePost(DeleteView):
+    model = Goddesses
+    fields = '__all__'
+    success_url = reverse_lazy('home')
 
 
 # class AddPost(View):
