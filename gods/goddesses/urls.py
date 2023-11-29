@@ -11,7 +11,7 @@ urlpatterns = [
     path('addpost/', views.AddPost.as_view(), name='add_post'),
     path('contacts/', views.contacts, name='contacts'),
     path('login/', views.login, name='login'),
-    path('goddess/<slug:post_slug>/', views.show_post, name='goddess'),
-    path('category/<slug:cat_slug>/', views.show_category, name='category'),
-    path('tag/<slug:tag_slug>/', views.tag_posts, name='tag')
+    path('goddess/<slug:post_slug>/', views.ShowPost.as_view(), name='goddess'),
+    path('category/<slug:cat_slug>/', views.GoddessesCategory.as_view(), name='category'),
+    path('tag/<slug:tag_slug>/', views.PostTags.as_view(), name='tag')
 ]
