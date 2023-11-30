@@ -8,13 +8,7 @@ from django.views.generic import TemplateView, ListView, DetailView, FormView, C
 
 from goddesses.forms import AddPostForm, UploadFileForm
 from goddesses.models import Goddesses, Category, TagPost, UploadFiles
-
-menu = [
-    {'title': 'About', 'url_name': 'about'},
-    {'title': 'Add post', 'url_name': 'add_post'},
-    {'title': 'Contacts', 'url_name': 'contacts'},
-    {'title': 'Login', 'url_name': 'login'}
-]
+from goddesses.utils import DataMixin
 
 
 # def index(request):
@@ -29,29 +23,32 @@ menu = [
 #     return render(request, 'goddesses/index.html', context=data)
 
 
-class GodsHome(ListView):
+class GodsHome(DataMixin, ListView):
     template_name = 'goddesses/index.html'
     context_object_name = 'posts'
-    extra_context = {
-        'title': "Gods & Goddesses",
-        'menu': menu,
-        'url': slugify("click here for the next page"),
-        'cat_selected': 0,
-    }
+    title_page = "Gods & Goddesses"
+    cat_selected = 0
+
+    # extra_context = {
+    #     'title': "Gods & Goddesses",
+    #     'menu': menu,
+    #     'url': slugify("click here for the next page"),
+    #     'cat_selected': 0,
+    # }
 
     def get_queryset(self):
         return Goddesses.published.all().select_related('cat')
 
 
 # class GodsHome(TemplateView):
-    # template_name = 'goddesses/index.html'
-    # extra_context = {
-    #     'title': "Goddesses",
-    #     'menu': menu,
-    #     'posts': Goddesses.published.all().select_related('cat'),
-    #     'url': slugify("press here for the next page"),
-    #     'cat_selected': 0,
-    # }
+# template_name = 'goddesses/index.html'
+# extra_context = {
+#     'title': "Goddesses",
+#     'menu': menu,
+#     'posts': Goddesses.published.all().select_related('cat'),
+#     'url': slugify("press here for the next page"),
+#     'cat_selected': 0,
+# }
 
 # def handle_uploaded_file(f):
 #     with open(f'uploads/{f.name}', 'wb+') as destination:
@@ -72,7 +69,7 @@ def about(request):
     data = {
         'title': "About",
         'text': "About this site",
-        'menu': menu,
+        # 'menu': menu,
         'form': form
     }
     return render(request, 'goddesses/about.html', data)
@@ -89,7 +86,7 @@ def about(request):
 #     return render(request, 'goddesses/post.html', data)
 
 
-class ShowPost(DetailView):
+class ShowPost(DataMixin, DetailView):
     # model = Goddesses
     template_name = 'goddesses/post.html'
     slug_url_kwarg = 'post_slug'
@@ -97,14 +94,13 @@ class ShowPost(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = context['post'].title
         context['edit_absolute_url'] = context['post'].get_edit_absolute_url()
         context['del_absolute_url'] = context['post'].get_del_absolute_url()
-        context['menu'] = menu
-        return context
+        return self.get_mixin_context(context, title=context['post'].title)
 
     def get_object(self, queryset=None):
         return get_object_or_404(Goddesses.published, slug=self.kwargs[self.slug_url_kwarg])
+
 
 # def add_post(request):
 #     if request.method == 'POST':
@@ -123,30 +119,18 @@ class ShowPost(DetailView):
 #     return render(request, 'goddesses/addpost.html', data)
 
 
-class AddPost(CreateView):
+class AddPost(DataMixin, CreateView):
     model = Goddesses
     fields = '__all__'
     template_name = 'goddesses/addpost.html'
-    # form_class = AddPostForm
-    # success_url = reverse_lazy('home')
-    extra_context = {
-        'menu': menu,
-        'title': 'Add post'
-    }
-
-    # def form_valid(self, form):
-    #     form.save()
-    #     return super().form_valid(form)
+    title_page = 'Add post'
 
 
-class UpdatePost(UpdateView):
+class UpdatePost(DataMixin, UpdateView):
     model = Goddesses
     fields = '__all__'
     template_name = 'goddesses/addpost.html'
-    extra_context = {
-        'menu': menu,
-        'title': 'Edit post'
-    }
+    title_page = 'Edit post'
 
 
 class DeletePost(DeleteView):
@@ -200,7 +184,7 @@ def login(request):
 #     return render(request, 'goddesses/index.html', context=data)
 
 
-class GoddessesCategory(ListView):
+class GoddessesCategory(DataMixin, ListView):
     template_name = 'goddesses/index.html'
     context_object_name = 'posts'
     allow_empty = False
@@ -211,13 +195,11 @@ class GoddessesCategory(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         cat = context['posts'][0].cat
-        context['title'] = 'Category ' + cat.name
-        context['menu'] = menu
-        context['cat_selected'] = cat.id
-        return context
+        return self.get_mixin_context(context, title='Category ' + cat.name,
+                                      cat_selected=cat.pk)
 
 
-class PostTags(ListView):
+class PostTags(DataMixin, ListView):
     template_name = 'goddesses/index.html'
     context_object_name = 'posts'
     allow_empty = False
@@ -228,9 +210,8 @@ class PostTags(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         tags = TagPost.objects.get(slug=self.kwargs['tag_slug'])
-        context['title'] = 'Tag ' + tags.slug
-        context['menu'] = menu
-        return context
+        return self.get_mixin_context(context, title='Tag ' + tags.slug)
+
 
 # def tag_posts(request, tag_slug):
 #     tag = get_object_or_404(TagPost, slug=tag_slug)
