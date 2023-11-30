@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.defaultfilters import slugify
@@ -57,22 +58,32 @@ class GodsHome(DataMixin, ListView):
 
 
 def about(request):
-    if request.method == 'POST':
-        # handle_uploaded_file(request.FILES['file_upload'])
-        form = UploadFileForm(request.POST, request.FILES)
-        if form.is_valid():
-            # handle_uploaded_file(form.cleaned_data['file'])
-            f = UploadFiles(file=form.cleaned_data['file'])
-            f.save()
-    else:
-        form = UploadFileForm()
-    data = {
-        'title': "About",
-        'text': "About this site",
-        # 'menu': menu,
-        'form': form
-    }
-    return render(request, 'goddesses/about.html', data)
+    god_list = Goddesses.published.all()
+    paginator = Paginator(god_list, 3)
+
+    p_number = request.GET.get('page')
+    page_obj = paginator.get_page(p_number)
+
+    return render(request, 'goddesses/about.html', {'page_obj': page_obj})
+
+
+ #  def about(request):
+    # if request.method == 'POST':
+    #     # handle_uploaded_file(request.FILES['file_upload'])
+    #     form = UploadFileForm(request.POST, request.FILES)
+    #     if form.is_valid():
+    #         # handle_uploaded_file(form.cleaned_data['file'])
+    #         f = UploadFiles(file=form.cleaned_data['file'])
+    #         f.save()
+    # else:
+    #     form = UploadFileForm()
+    # data = {
+    #     'title': "About",
+    #     'text': "About this site",
+    #     # 'menu': menu,
+    #     'form': form
+    # }
+    # return render(request, 'goddesses/about.html', data)
 
 
 # def show_post(request, post_slug):

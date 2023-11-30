@@ -1,12 +1,33 @@
 {% extends 'base.html' %}
 
-{% block content %}
-<h3>{{ text }}</h3>
+<!--{% block contentt %}-->
+<!--<h3>{{ text }}</h3>-->
 
-<form action="" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-<!--    <p><input type="file" name="file_upload"></p>-->
-    {{ form.as_p }}
-    <p><button type="submit">Send</button></p>
-</form>
+<!--<form action="" method="post" enctype="multipart/form-data">-->
+<!--    {% csrf_token %}-->
+<!--&lt;!&ndash;    <p><input type="file" name="file_upload"></p>&ndash;&gt;-->
+<!--    {{ form.as_p }}-->
+<!--    <p><button type="submit">Send</button></p>-->
+<!--</form>-->
+<!--{% endblock %}-->
+
+
+{% block content %}
+
+{% for item in page_obj %}
+<p>{{ item.pk }}: {{ item }}</p>
+{% endfor %}
+
+<nav>
+    <ul>
+        {% for p in page_obj.paginator.page_range %}
+        <li>
+            <a href="?page={{ p }}">{{ p }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+
+</nav>
+
+
 {% endblock %}
