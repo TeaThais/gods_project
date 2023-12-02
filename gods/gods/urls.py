@@ -25,6 +25,7 @@ from gods import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('goddesses.urls')),
+    path('users/', include('users.urls', namespace='users')),
     path("__debug__/", include("debug_toolbar.urls")),
 ]
 
