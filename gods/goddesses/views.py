@@ -30,6 +30,7 @@ class GodsHome(DataMixin, ListView):
     title_page = "Gods & Goddesses"
     cat_selected = 0
 
+
     # extra_context = {
     #     'title': "Gods & Goddesses",
     #     'menu': menu,
@@ -199,6 +200,7 @@ class GoddessesCategory(DataMixin, ListView):
     template_name = 'goddesses/index.html'
     context_object_name = 'posts'
     allow_empty = False
+
 
     def get_queryset(self):
         return Goddesses.published.filter(cat__slug=self.kwargs['cat_slug']).select_related('cat')
