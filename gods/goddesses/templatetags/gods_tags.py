@@ -1,6 +1,7 @@
 from django import template
 import goddesses.views as views
 from goddesses.models import Category, TagPost
+from goddesses.utils import menu
 
 register = template.Library()
 
@@ -8,6 +9,11 @@ register = template.Library()
 # @register.simple_tag()
 # def get_categories():
 #     return views.cats_db
+
+
+@register.simple_tag()
+def get_menu():
+    return menu
 
 
 @register.inclusion_tag('goddesses/list_categories.html')
