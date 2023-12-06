@@ -14,21 +14,23 @@
 
 {% block content %}
 
-{% for item in page_obj %}
-<p>{{ item.pk }}: {{ item }}</p>
-{% endfor %}
+<h3> About </h3>
 
-<nav>
-    <ul>
-        {% for p in page_obj.paginator.page_range %}
+<!--{% for item in page_obj %}-->
+<!--<p>{{ item.pk }}: {{ item }}</p>-->
+<!--{% endfor %}-->
 
-        <li>
-            <a href="?page={{ p }}">{{ p }}</a>
-        </li>
-        {% endfor %}
-    </ul>
+<!--<nav>-->
+<!--    <ul>-->
+<!--        {% for p in page_obj.paginator.page_range %}-->
 
-</nav>
+<!--        <li>-->
+<!--            <a href="?page={{ p }}">{{ p }}</a>-->
+<!--        </li>-->
+<!--        {% endfor %}-->
+<!--    </ul>-->
+
+<!--</nav>-->
 
 
 {% endblock %}
