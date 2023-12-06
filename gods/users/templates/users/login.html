@@ -1,12 +1,16 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h3>Authorisation</h3>
+<h3 id="auth">Authorization</h3>
 
 <form method="post">
   {% csrf_token %}
   {{ form.as_p }}
+  {% if request.GET.next %}
+    <input type="hidden" name="next" value="{{ request.GET.next }}">
+  {% endif %}
   <p> <button type="submit"> Login </button> </p>
+
 </form>
 
 {% endblock %}

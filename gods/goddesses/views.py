@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
 from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.shortcuts import render, redirect, get_object_or_404
@@ -30,6 +31,8 @@ class GodsHome(DataMixin, ListView):
     title_page = "Gods & Goddesses"
     cat_selected = 0
 
+    def get_queryset(self):
+        return Goddesses.published.all().select_related('cat')
 
     # extra_context = {
     #     'title': "Gods & Goddesses",
@@ -38,8 +41,8 @@ class GodsHome(DataMixin, ListView):
     #     'cat_selected': 0,
     # }
 
-    def get_queryset(self):
-        return Goddesses.published.all().select_related('cat')
+
+
 
 
 # class GodsHome(TemplateView):
@@ -56,7 +59,6 @@ class GodsHome(DataMixin, ListView):
 #     with open(f'uploads/{f.name}', 'wb+') as destination:
 #         for chunk in f.chunks():
 #             destination.write(chunk)
-
 
 def about(request):
     god_list = Goddesses.published.all()
@@ -131,7 +133,7 @@ class ShowPost(DataMixin, DetailView):
 #     return render(request, 'goddesses/addpost.html', data)
 
 
-class AddPost(DataMixin, CreateView):
+class AddPost(LoginRequiredMixin, DataMixin, CreateView):
     model = Goddesses
     fields = '__all__'
     template_name = 'goddesses/addpost.html'
