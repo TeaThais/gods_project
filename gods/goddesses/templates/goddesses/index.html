@@ -9,7 +9,8 @@
      {% for post in posts %}
              <li>
                  <div class="article-panel">
-                     <p class="first">Category: {{ post.cat }}</p>
+                     <p class="first">Category: {{ post.cat }}
+                     | Author: {{ post.author.username|default:'unknown' }} </p>
                      <p class="last">Date: {{ post.time_update }}</p>
                  </div>
                  {% if post.image %}

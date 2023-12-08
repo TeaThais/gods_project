@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.core.validators import MinLengthValidator
 from django.db import models
 from django.template.defaultfilters import slugify
@@ -28,6 +29,7 @@ class Goddesses(models.Model):
     cat = models.ForeignKey('Category', on_delete=models.PROTECT, related_name='deities')
     tags = models.ManyToManyField('TagPost', blank=True, related_name='post_tags')
     consort = models.OneToOneField('Consort', on_delete=models.SET_NULL, blank=True, null=True, related_name='consort')
+    author = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, blank=True, related_name='author', null=True, default=None)
 
     objects = models.Manager()
     published = PublishedManager()

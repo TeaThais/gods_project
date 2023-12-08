@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
 from django.http import HttpResponse, HttpResponseNotFound, Http404
@@ -139,6 +140,11 @@ class AddPost(LoginRequiredMixin, DataMixin, CreateView):
     template_name = 'goddesses/addpost.html'
     title_page = 'Add post'
 
+    def form_valid(self, form):
+        new_post = form.save(commit=False)
+        new_post.author = self.request.user
+        return super().form_valid(form)
+
 
 class UpdatePost(DataMixin, UpdateView):
     model = Goddesses
@@ -177,6 +183,7 @@ class DeletePost(DeleteView):
 #         return render(request, 'goddesses/addpost.html', data)
 
 
+@login_required
 def contacts(request):
     return HttpResponse('Contact')
 

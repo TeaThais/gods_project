@@ -32,9 +32,9 @@ class LoginUser(LoginView):
     template_name = 'users/login.html'
     # extra_context = {'title': ''}
 
-    def get_next_url(self, request):
-        if 'next' in request.POST:
-            return redirect(request.POST.get('add_post'))
+    # def get_next_url(self, request):
+    #     if 'next' in request.POST:
+    #         return redirect(request.POST.get('add_post'))
 # def logout_user(request):
 #     logout(request)
 #     return HttpResponseRedirect(reverse('users:logout'))

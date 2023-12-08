@@ -6,9 +6,9 @@
 <form method="post">
   {% csrf_token %}
   {{ form.as_p }}
-  {% if request.GET.next %}
-    <input type="hidden" name="next" value="{{ request.GET.next }}">
-  {% endif %}
+<!--  {% if request.GET.next %}-->
+<!--    <input type="hidden" name="next" value="{{ request.GET.next }}">-->
+<!--  {% endif %}-->
   <p> <button type="submit"> Login </button> </p>
 
 </form>
